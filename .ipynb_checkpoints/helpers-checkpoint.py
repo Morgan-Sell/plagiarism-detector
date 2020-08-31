@@ -1,6 +1,7 @@
 import re
 import pandas as pd
-import operator 
+import operator
+import numpy as np
 
 from sklearn.feature_extraction.text import CountVectorizer
 
@@ -128,7 +129,7 @@ def create_vocab_for_ngrams(a_text, s_text, n):
                           
     '''
     
-    vectorizer = CountVectorizer(analyzer='word', ngram_range(n, n))
+    vectorizer = CountVectorizer(analyzer='word', ngram_range=(n, n))
     ngrams = vectorizer.fit_transform([a_text, s_text])
     ngram_arr = ngrams.toarray()
     return ngram_arr
@@ -164,10 +165,10 @@ def retrieve_source_document(df, ans_file):
     Args:
         df (df) : 
     Return:
-        source_text (str) : A Wikipedia text.
+        a_text (str) : A Wikipedia text.
     '''
     row_idx = df[df['File'] == ans_file].index
-    task = df.iloc[row_idx]['Task']
-    source_text = df[df['Task'] == task and df['Class'] == -1]['Text']
+    task = df.iloc[row_idx]['Task'].values[0]
+    a_text = df.loc[(df['Task'] == task) & (df['Class'] == -1)]['Text'].values[0]
     
-    return source_text
+    return a_text
