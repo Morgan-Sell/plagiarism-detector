@@ -2,6 +2,8 @@ import re
 import pandas as pd
 import operator 
 
+from sklearn.feature_extraction.text import CountVectorizer
+
 # Add 'datatype' column that indicates if the record is original wiki answer as 0, training data 1, test data 2, onto 
 # the dataframe - uses stratified random sampling (with seed) to sample by task & plagiarism amount 
 
@@ -110,3 +112,62 @@ def create_text_column(df, file_directory='data/'):
     text_df['Text'] = text
     
     return text_df
+
+def create_vocab_for_ngrams(a_text, s_text, n):
+    '''
+    Translates text files ito an array of the desired n-grams.
+    
+    Args:
+        a_text (str) : Source document which is the benchmark for plagiarism.
+        s_text (str) : Student document which is evaluated for plagiarism.
+        n (int) : Number of ngrams.
+    
+    Return:
+        ngram_arr (arr) : Two arrays that are the ngram transformation of a_text and s_text.
+                          Comprised of 0s and 1s.
+                          
+    '''
+    
+    vectorizer = CountVectorizer(analyzer='word', ngram_range(n, n))
+    ngrams = vectorizer.fit_transform([a_text, s_text])
+    ngram_arr = ngrams.toarray()
+    return ngram_arr
+
+def containment(ngram_array):
+    ''' 
+    Containment is a measure of text similarity. It is the normalized, 
+    intersection of ngram word counts in two texts.
+       
+    Args:
+        ngram_arr (arr) : Comprised of two arrays that are the ngram transformation of a_text and s_text.
+                          Array elements are either 0 or 1.
+    
+    Return:
+        containment (float) : A metric to evaluate the degree of plagiarism.
+    '''
+    
+    a = ngram_array[0]
+    s = ngram_array[1]
+    
+    a_idx = np.where(a == 1)
+    s_idx = np.where(s == 1)
+    intersect = len(np.intersect1d(a_idx, s_idx))
+    a_count = np.sum(a)
+    containment = intersect / a_count
+    
+    return containment
+
+def retrieve_source_document(df, ans_file):
+    ''' 
+    Returns the corresponding source text to the student's submitted response.
+       
+    Args:
+        df (df) : 
+    Return:
+        source_text (str) : A Wikipedia text.
+    '''
+    row_idx = df[df['File'] == ans_file].index
+    task = df.iloc[row_idx]['Task']
+    source_text = df[df['Task'] == task and df['Class'] == -1]['Text']
+    
+    return source_text
