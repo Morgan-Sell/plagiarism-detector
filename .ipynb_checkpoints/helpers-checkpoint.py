@@ -134,7 +134,7 @@ def create_vocab_for_ngrams(a_text, s_text, n):
     ngram_arr = ngrams.toarray()
     return ngram_arr
 
-def containment(ngram_array):
+def containment(ngram_arr):
     ''' 
     Containment is a measure of text similarity. It is the normalized, 
     intersection of ngram word counts in two texts.
@@ -147,15 +147,15 @@ def containment(ngram_array):
         containment (float) : A metric to evaluate the degree of plagiarism.
     '''
     
-    a = ngram_array[0]
-    s = ngram_array[1]
+    
+    a = ngram_arr[0]
+    s = ngram_arr[1]
     
     a_idx = np.where(a == 1)
     s_idx = np.where(s == 1)
     intersect = len(np.intersect1d(a_idx, s_idx))
-    a_count = np.sum(a)
-    containment = intersect / a_count
-    
+    s_count = np.sum(s)
+    containment = intersect / s_count
     return containment
 
 def retrieve_source_document(df, ans_file):
