@@ -114,7 +114,7 @@ def create_text_column(df, file_directory='data/'):
     
     return text_df
 
-def create_vocab_for_ngrams(a_text, s_text, n):
+def create_vocab_for_ngrams(student_submission, source_doc, n):
     '''
     Translates text files ito an array of the desired n-grams.
     
@@ -130,11 +130,12 @@ def create_vocab_for_ngrams(a_text, s_text, n):
     '''
     
     vectorizer = CountVectorizer(analyzer='word', ngram_range=(n, n))
-    ngrams = vectorizer.fit_transform([a_text, s_text])
-    ngram_arr = ngrams.toarray()
-    return ngram_arr
+    ngrams = vectorizer.fit_transform([student_submission, source_doc])
+    ngrams_arr = ngrams.toarray()
+    student_ngrams, source_ngrams = ngrams_arr[0], ngrams_arr[1]
+    return student_ngrams, source_ngrams
 
-def containment(ngram_arr):
+def containment(student_ngrams, source_ngrams):
     ''' 
     Containment is a measure of text similarity. It is the normalized, 
     intersection of ngram word counts in two texts.
@@ -147,15 +148,9 @@ def containment(ngram_arr):
         containment (float) : A metric to evaluate the degree of plagiarism.
     '''
     
+    arr_lim = min(len(student_ngrams), len(source_ngrams))
     
-    a = ngram_arr[0]
-    s = ngram_arr[1]
-    
-    a_idx = np.where(a == 1)
-    s_idx = np.where(s == 1)
-    intersect = len(np.intersect1d(a_idx, s_idx))
-    s_count = np.sum(s)
-    containment = intersect / s_count
+    containment = np.sum(student_ngrams[:arr_lim] * source_ngrams[:arr_lim]) / np.sum(student_ngrams[:arr_lim])
     return containment
 
 def retrieve_source_document(df, ans_file):
