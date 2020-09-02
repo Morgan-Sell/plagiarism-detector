@@ -132,8 +132,7 @@ def create_vocab_for_ngrams(student_submission, source_doc, n):
     vectorizer = CountVectorizer(analyzer='word', ngram_range=(n, n))
     ngrams = vectorizer.fit_transform([student_submission, source_doc])
     ngrams_arr = ngrams.toarray()
-    student_ngrams, source_ngrams = ngrams_arr[0], ngrams_arr[1]
-    return student_ngrams, source_ngrams
+    return ngrams_arr
 
 def containment(student_ngrams, source_ngrams):
     ''' 
@@ -149,7 +148,6 @@ def containment(student_ngrams, source_ngrams):
     '''
     
     arr_lim = min(len(student_ngrams), len(source_ngrams))
-#     intersect_indices = np.intersect1d(s_ngrams, a_ngrams, return_indices=True)
     
     containment = np.sum(student_ngrams[:arr_lim] * source_ngrams[:arr_lim]) / np.sum(student_ngrams[:arr_lim])
     return containment
