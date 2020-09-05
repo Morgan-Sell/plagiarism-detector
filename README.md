@@ -1,6 +1,6 @@
 # Detecting Student Plagiarism
 
-[Graded Paper](https://github.com/Morgan-Sell/plagiarism-detector/blob/master/images/students_grade.jpg)
+![Graded Paper](https://github.com/Morgan-Sell/plagiarism-detector/blob/master/images/students_grade.jpg)
 
 ## Executive Summary
 
@@ -10,7 +10,7 @@ The source document subjects include OOP, PageRank, vector space model, Bayes' t
 
 The graph below summarizes the the distribution of degree of plagiarm for the dataset.
 
-[Degree Plagiarism Plot](https://github.com/Morgan-Sell/plagiarism-detector/blob/master/images/plagiarism_distribution.png)
+![Degree Plagiarism Plot](https://github.com/Morgan-Sell/plagiarism-detector/blob/master/images/plagiarism_distribution.png)
 
 By applying NLP, the AdaBoost model achieved an accuracy equal to 0.92. 
 
