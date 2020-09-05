@@ -40,8 +40,8 @@ if __name__ == '__main__':
     parser.add_argument('--data-dir', type=str, default=os.environ['SM_CHANNEL_TRAIN'])
     
     ## TODO: Add any additional arguments that you will need to pass into your model
-    #parser.add_argument('--n_estimators', type=int, default=100)
-    #parser.add_argument('--learning_rate', type=float, default=0.1)
+    parser.add_argument('--n_estimators', type=int, default=300)
+    parser.add_argument('--learning_rate', type=float, default=0.1)
     # args holds all passed-in arguments
     args = parser.parse_args()
 
@@ -50,20 +50,20 @@ if __name__ == '__main__':
     train_data = pd.read_csv(os.path.join(training_dir, "train.csv"), header=None, names=None)
 
     # Labels are in the first column
-    train_y = train_data.iloc[:,0]
-    train_x = train_data.iloc[:,1:]
+    train_y = train_data.iloc[:,0].values.reshape(-1,1)
+    train_x = train_data.iloc[:,1:].values
     
     
     ## --- Your code here --- ##
-    #n_estimators = args.n_estimators
-    #learning_rate = args.learning_rate
+    n_estimators = args.n_estimators
+    learning_rate = args.learning_rate
     
     ## TODO: Define a model 
-    model = AdaBoostClassifier()#n_estimators=n_estimators, learning_rate=learning_rate)
+    model = AdaBoostClassifier(n_estimators=n_estimators, learning_rate=learning_rate)
     
     
     ## TODO: Train the model
-    model.fit(train_y, train_x)
+    model.fit(train_x, train_y)
     
     
     ## --- End of your code  --- ##
