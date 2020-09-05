@@ -1,6 +1,6 @@
 # Detecting Student Plagiarism
 
-![Graded Paper]<img src="https://github.com/Morgan-Sell/plagiarism-detector/blob/master/images/grading_main.jpg" height="250">
+<img src="https://github.com/Morgan-Sell/plagiarism-detector/blob/master/images/grading_main.jpg" height="250" width="700">
 
 ## Executive Summary
 
