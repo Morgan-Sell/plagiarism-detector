@@ -20,7 +20,7 @@ To prepare the data, all words were located and all non-alphanumerical and tabs/
 
 Set theory was used to calculate the containment(see equation below). This feature evaluates the degree in which the selected ngram is duplicated in the student's submission. The metric is normalized enabling comparison among documents that vary in length.
 
-\[\frac{\sum{count(\text{ngram}_{A}) \cap count(\text{ngram}_{S})}}{\sum{count(\text{ngram}_{A})}}\]
+<img src="https://latex.codecogs.com/gif.latex?\frac{\sum{count(\text{ngram}_{A})&space;\cap&space;count(\text{ngram}_{S})}}{\sum{count(\text{ngram}_{A})}}">
 
 Containment was calcuated using ngram values ranging from one to six. 1-gram and 6-grams were selected because the other n-grams shared a high correlation among each other. Highly correlated features may overinflate the importance of a single feature.
 
